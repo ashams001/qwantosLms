@@ -11,7 +11,7 @@
 
     $current_user = wp_get_current_user();
     $redirect_to = admin_url();
-    $redirect_url = redirect_wrapper( $redirect_to, '', $current_user );
+    $redirect_url = peters_redirect_wrapper( $redirect_to, '', $current_user );
     wp_redirect( $redirect_url );
     die();
 ?>

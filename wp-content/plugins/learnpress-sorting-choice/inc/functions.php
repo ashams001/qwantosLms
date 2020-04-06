@@ -23,3 +23,7 @@ if ( ! function_exists( 'learn_press_sorting_choice_get_template' ) ) {
 		learn_press_get_template( $template_name, $args, learn_press_template_path() . '/addons/sorting-choice/', LP_QUESTION_SORTING_CHOICE_TEMPLATE );
 	}
 }
+
+/**
+ * Frontend editor
+ */

@@ -140,13 +140,15 @@ class Plugin {
 
 	public function new_login_url( $scheme = null ) {
 
+		$url = apply_filters( 'wps_hide_login_home_url', home_url( '/', $scheme ) );
+
 		if ( get_option( 'permalink_structure' ) ) {
 
-			return $this->user_trailingslashit( home_url( '/', $scheme ) . $this->new_login_slug() );
+			return $this->user_trailingslashit( $url . $this->new_login_slug() );
 
 		} else {
 
-			return home_url( '/', $scheme ) . '?' . $this->new_login_slug();
+			return $url . '?' . $this->new_login_slug();
 
 		}
 
@@ -214,12 +216,14 @@ class Plugin {
 			     && ! in_array( $whl_page, $this->forbidden_slugs() ) ) {
 
 				update_site_option( 'whl_page', $whl_page );
+				flush_rewrite_rules();
 
 			}
 			if ( ( $whl_redirect_admin = sanitize_title_with_dashes( $_POST['whl_redirect_admin'] ) )
 			     && strpos( $whl_redirect_admin, '404' ) === false ) {
 
 				update_site_option( 'whl_redirect_admin', $whl_redirect_admin );
+				flush_rewrite_rules();
 
 			}
 		}
@@ -426,14 +430,14 @@ class Plugin {
 		global $pagenow;
 
 		if ( ! is_multisite()
-		     && ( strpos( $_SERVER['REQUEST_URI'], 'wp-signup' ) !== false
-		          || strpos( $_SERVER['REQUEST_URI'], 'wp-activate' ) !== false ) && apply_filters( 'wps_hide_login_signup_enable', false ) === false ) {
+		     && ( strpos( rawurldecode( $_SERVER['REQUEST_URI'] ) , 'wp-signup' ) !== false
+		          || strpos( rawurldecode( $_SERVER['REQUEST_URI'] ), 'wp-activate' ) !== false ) && apply_filters( 'wps_hide_login_signup_enable', false ) === false ) {
 
 			wp_die( __( 'This feature is not enabled.', 'wpserveur-hide-login' ) );
 
 		}
 
-		$request = parse_url( $_SERVER['REQUEST_URI'] );
+		$request = parse_url( rawurldecode( $_SERVER['REQUEST_URI'] ) );
 
 		if ( ( strpos( rawurldecode( $_SERVER['REQUEST_URI'] ), 'wp-login.php' ) !== false
 		       || ( isset( $request['path'] ) && untrailingslashit( $request['path'] ) === site_url( 'wp-login', 'relative' ) ) )
@@ -477,7 +481,7 @@ class Plugin {
 
 		global $pagenow;
 
-		$request = parse_url( $_SERVER['REQUEST_URI'] );
+		$request = parse_url( rawurldecode( $_SERVER['REQUEST_URI'] ) );
 
 		if ( ! isset( $_POST['post_password'] ) ) {
 
@@ -526,9 +530,20 @@ class Plugin {
 			} elseif ( $pagenow === 'wp-login.php' ) {
 				global $error, $interim_login, $action, $user_login;
 
-				if ( is_user_logged_in() && ! isset( $_REQUEST['action'] ) ) {
-					wp_safe_redirect( admin_url() );
-					die();
+				$redirect_to = admin_url();
+
+				$requested_redirect_to = '';
+				if ( isset( $_REQUEST['redirect_to'] ) ) {
+					$requested_redirect_to = $_REQUEST['redirect_to'];
+				}
+
+				if ( is_user_logged_in() ) {
+					$user = wp_get_current_user();
+					if ( ! isset( $_REQUEST['action'] ) ) {
+						$logged_in_redirect = apply_filters( 'whl_logged_in_redirect', $redirect_to, $requested_redirect_to, $user );
+						wp_safe_redirect( $logged_in_redirect );
+						die();
+					}
 				}
 
 				@require_once ABSPATH . 'wp-login.php';

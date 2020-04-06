@@ -90,7 +90,9 @@ $user_ip      = $order->get_user_ip_address();
 				<?php } ?>
 
 				<?php if ( $order->get_post_status() == 'auto-draft' ) { ?>
-<!--					--><?php //_e( '- Or -', 'learnpress' ); ?>
+                    <a href="" class="change-group"
+                       data-multiple="yes"><?php _e( 'Add multi groups', 'learnpress' ); ?></a>
+					<?php _e( '- Or -', 'learnpress' ); ?>
                     <a href="" class="change-user"
                        data-multiple="yes"><?php _e( 'Add multi users', 'learnpress' ); ?></a>
 				<?php } ?>
@@ -179,16 +181,40 @@ $user_ip      = $order->get_user_ip_address();
             </div>
             <# } #>
 </script>
+<script type="text/html" id="tmpl-order-data-group">
+    <# if(!data.multiple){ #>
+    <div class="order-data-field order-data-group">
+        <label><?php _e( 'Group', 'learnpress' ); ?></label>
+        <div class="order-groups">
+            {{data.name}}
+            <input type="hidden" name="order-group" id="order-group" value="{{data.id}}">
+        </div>
+        <a href="" class="change-group"><?php _e( 'Change', 'learnpress' ); ?></a>
+    </div>
+    <# }else{ #>
+    <div class="order-data-field order-data-group">
+        <label><?php _e( 'Group', 'learnpress' ); ?></label>
+        <div class="order-groups">
+            <ul id="list-groups"
+                class="advanced-list <?php echo $order->get_status() === 'completed' ? 'locked' : ''; ?>">
+            </ul>
+        </div>
+        <a href="" class="change-group" data-multiple="yes"><?php _e( 'Add multi groups', 'learnpress' ); ?></a>
+    </div>
+    <# } #>
+</script>
 <script type="text/html" id="tmpl-order-advanced-list-item">
     <li data-id="{{id}}">
         <span class="remove-item"></span><span>{{text}}</span>
         <input type="hidden" name="order-customer[]" value="{{id}}">
+        <input type="hidden" name="order-group[]" value="{{id}}">
     </li>
 </script>
 
 <?php
 $assets = learn_press_admin_assets();
 $assets->add_localize( 'learn-press-meta-box-order', 'users', $order->get_user_data() );
+//$assets->add_localize( 'learn-press-meta-box-order', 'groups', $order->get_user_data() );
 $assets->add_localize( 'learn-press-meta-box-order', 'userTextFormat', '{{display_name}} ({{email}})' );
 RWMB_Datetime_Field::admin_enqueue_scripts();
 wp_enqueue_script( 'jquery-ui-datepicker' );

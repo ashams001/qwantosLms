@@ -36,7 +36,9 @@ if ( ! class_exists( 'LP_Addon_Co_Instructor' ) ) {
 			$this->user = get_current_user_id();
 
 			// add co-instructor email settings
-			$this->add_co_instructor_emails();
+			//$this->add_co_instructor_emails();
+			add_action( 'learn-press/register-emails', array( $this, 'add_co_instructor_emails' ) );
+			add_action( 'plugins_loaded', array( $this, 'backward_add_co_instructor_emails' ) );
 
 			$current_user = wp_get_current_user();
 			if ( in_array( 'lp_teacher', $current_user->roles ) || in_array( 'administrator', $current_user->roles ) ) {
@@ -110,9 +112,19 @@ if ( ! class_exists( 'LP_Addon_Co_Instructor' ) ) {
 		/**
 		 * Add email classes.
 		 */
-		public function add_co_instructor_emails() {
-			LP_Emails::instance()->emails['LP_Email_Enrolled_Course_Co_Instructor'] = include( 'emails/class-lp-co-instructor-email-enrolled-course.php' );
-			LP_Emails::instance()->emails['LP_Email_Finished_Course_Co_Instructor'] = include( 'emails/class-lp-co-instructor-email-finished-course.php' );
+		public function add_co_instructor_emails( &$emails ) {
+//			LP_Emails::instance()->emails['LP_Email_Enrolled_Course_Co_Instructor'] = include( 'emails/class-lp-co-instructor-email-enrolled-course.php' );
+//			LP_Emails::instance()->emails['LP_Email_Finished_Course_Co_Instructor'] = include( 'emails/class-lp-co-instructor-email-finished-course.php' );
+
+			$emails['LP_Email_Enrolled_Course_Co_Instructor'] = include( 'emails/class-lp-co-instructor-email-enrolled-course.php' );
+			$emails['LP_Email_Finished_Course_Co_Instructor'] = include( 'emails/class-lp-co-instructor-email-finished-course.php' );
+		}
+
+		public function backward_add_co_instructor_emails() {
+			if ( class_exists( 'LP_Emails' ) ) {
+				$emails = LP_Emails::instance()->emails;
+				$this->add_co_instructor_emails( $emails );
+			}
 		}
 
 		/**

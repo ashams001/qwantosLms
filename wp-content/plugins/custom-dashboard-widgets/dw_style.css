@@ -14,10 +14,11 @@ div#postbox-container-2,div#postbox-container-3,div#postbox-container-4,span#foo
 .main_bashboard_widget_button{
 	display:inline-block;
 	padding:0;
-	margin:15px;
+	margin:15px 0px;
 	text-align:center;
 	clear:both;
 	float:right;
+	width: 100% !important;
 }
 .main_bashboard_widget_button a{
 	color:#777;
@@ -53,20 +54,12 @@ div#postbox-container-2,div#postbox-container-3,div#postbox-container-4,span#foo
 	color:#fff!important;
 }
 
-.main_bashboard_widget_button{
-	display:inline-block;
-	padding:0;
-	margin:15px;
-	text-align:center;
-	clear:both;
-	float:right;
-}
 .main_bashboard_widget_button a{
 	color:#777;
 	transition:all 0.5s;
 	outline:none!important;
 	display:block;
-	padding: 10px 15px;
+	padding: 10px 10px;
 	border:1px solid #e1e1e1!important;
 	border-radius:30px;
 }
@@ -218,8 +211,8 @@ td input{
 
 
 .main_bashboard_widget_button a { border-radius: 0px!important; float: left;
-	width : 150px;}
-#custom_dashboard_widget .inside h3 { font-family: "Open Sans"!important; }
+	width : inherit;}
+#custom_dashboard_widget .inside h3 { font-family: "Open Sans"!important; font-size: large;}
 .close:hover { background: #999;color:#fff; }
 
 .main_bashboard_widget_button {
@@ -258,7 +251,7 @@ td input{
 	margin-right: 40px;
 }
 
-#custom_dashboard_count_widget .inside h3 { font-family: "Open Sans"!important; }
+#custom_dashboard_count_widget .inside h3 { font-family: "Open Sans"!important; font-size: large;}
 h1.digits { font-family: "Open Sans"!important;
     color: #FFFFFF;}
 

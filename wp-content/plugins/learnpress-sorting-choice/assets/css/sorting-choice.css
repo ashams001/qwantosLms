@@ -14,14 +14,17 @@
   .sorting-choice .answer-option .sort-hand {
     display: inline-block;
     width: 20px;
-    height: 17px;
+    height: 11px;
     position: absolute;
     top: 50%;
     margin-top: -8px;
     left: 15px;
     border-top: 3px solid #DDD;
     border-bottom: 3px solid #DDD;
-    cursor: move; }
+    cursor: move;
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box; }
     .sorting-choice .answer-option .sort-hand:hover {
       border-color: #00adff; }
       .sorting-choice .answer-option .sort-hand:hover:before {

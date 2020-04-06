@@ -23,7 +23,7 @@
         .sort-hand {
             display: inline-block;
             width: 20px;
-            height: 17px;
+            height: 11px;
             position: absolute;
             top: 50%;
             margin-top: -8px;
@@ -31,6 +31,9 @@
             border-top: 3px solid #DDD;
             border-bottom: 3px solid #DDD;
             cursor: move;
+            -webkit-box-sizing: content-box;
+            -moz-box-sizing: content-box;
+            box-sizing: content-box;
             &:hover {
                 border-color: #00adff;
                 &:before {

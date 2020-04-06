@@ -1,11 +1,11 @@
-=== Plugin Name ===
-Contributors: Collizo4sky
+=== Peter's Login Redirect ===
+Contributors: properfraction, Collizo4sky
 Donate link: https://profilepress.net/pricing
 Tags: login, logout, redirect, admin, administration, dashboard, users, authentication
-Requires at least: 3.2
-Requires PHP: 5.3
-Tested up to: 5.2
-Stable tag: 2.9.4
+Requires at least: 4.0
+Requires PHP: 5.4
+Tested up to: 5.3
+Stable tag: 2.9.7
 License: GPL-2.0+
 
 Redirect users to different locations after logging in and logging out.
@@ -15,8 +15,6 @@ Redirect users to different locations after logging in and logging out.
 Define a set of redirect rules for specific users, users with specific roles, users with specific capabilities, and a blanket rule for all other users. Also, set a redirect URL for post-registration. This is all managed in Settings > Login/logout redirects.
 
 You can use the syntax **[variable]username[/variable]** in your URLs so that the system will build a dynamic URL upon each login, replacing that text with the user's username. In addition to username, there is "userslug", "homeurl", "siteurl", "postid-23", "http_referer" and you can also add your own custom URL "variables". See Other Notes / How to Extend for documentation.
-
-If you're using a plugin such as Gigya that bypasses the regular WordPress login redirect process (and only allows one fixed redirect URL), set that plugin to redirect to wp-content/plugins/peters-login-redirect/wplogin_redirect_control.php and set the relevant setting to "Yes" at the bottom of the Settings &gt; Login/Logout redirects page in the WordPress admin panel.
 
 You can add your own code logic before and between any of the plugin's normal redirect checks if needed. See Other Notes / How to Extend for documentation. Some examples include: redirecting the user based on their IP address; and redirect users to a special page on first login.
 
@@ -49,30 +47,11 @@ These threads might be useful:
 
 Also see the instructions at the bottom of the settings on the "Settings &gt; Login/logout redirects" page in the WordPress admin panel that says:
 
-"Use external redirect file. Set this to "Yes" if you are using a plugin such as Gigya that bypasses the regular WordPress redirect process (and allows only one fixed redirect URL). Then, set the redirect URL in the other plugin to 
-http://www.yoursite.com/wp-content/plugins/peters-login-redirect/wplogin_redirect_control.php"
-
 == How to Extend ==
 
 = Custom redirect rules =
 
 You can write your own code logic before any of this plugin's checks for user-specific, role-specific, and capability-specific redirects, as well as before the fallback redirect URL.
-
-Available filters are:
-
-* rul_before_user
-* rul_before_role
-* rul_before_capability
-* rul_before_fallback
-
-Each takes the same 4 parameters:
-
-* $custom_redirect_to: This is set as false in case you don't have any redirect URL to set. Return this instead of false in case you have multiple filters running.
-* $redirect_to: Set by WordPress, usually the admin URL.
-* $requested_redirect_to: Set by WordPress, usually an override set in a GET parameter.
-* $user: A PHP object representing the current user.
-
-Your return value in your own code logic should be the URL to redirect to, or $custom_redirect_to to continue the plugin's normal checks.
 
 An example of plugin code to redirect users on first login. See http://www.theblog.ca/wordpress-redirect-first-login for standalone functionality:
 
@@ -153,13 +132,6 @@ An example of plugin code to redirect to a specific URL for only a specific IP r
 
 add_filter( 'rul_before_user', 'redirectByIP', 10, 4 );`
 
-Note that the same extensibility is available for logout redirects with these filters:
-
-* rul_before_user_logout
-* rul_before_role_logout
-* rul_before_capability_logout
-* rul_before_fallback_logout
-
 It takes 3 parameters:
 
 * $custom_redirect_to: This is set as false in case you don't have any redirect URL to set. Return this instead of false in case you have multiple filters running.
@@ -186,15 +158,18 @@ add_filter( 'rul_replace_variable', 'customRULVariableMonth', 10, 3 );`
 
 Be sure to rawurlencode the returned variable if necessary.
 
-= Custom "My Portal" link =
-
-A common need is to display the "redirect" link for a user in the site navigation or sidebar.
-
-Look at the function rul_register() in the plugin file for inspiration; it makes use of the redirect_to_front_page() function to determine the URL and then provides the relevant output code.
-
-For a deeper dive into this feature, please [see this video](https://www.dropbox.com/s/kxpycsd3bz5rpyf/custom_my_portal_link.mp4?dl=0)
-
 == Changelog ==
+
+= 2.9.7 =
+* Added option to redirect to any url specified.
+
+= 2.9.6 =
+* Added back php file url base redirect.
+
+= 2.9.5 =
+* Fixed: logout redirect not working.
+* Remove php file redirect option. No longer used by many or used at all.
+* Plugin redirection is only manageable by manage_categories capability. Removed option to change this.
 
 = 2.9.4 =
 * Fixed: Warning: is_readable(): open_basedir restriction.

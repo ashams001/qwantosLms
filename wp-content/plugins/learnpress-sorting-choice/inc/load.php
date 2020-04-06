@@ -88,11 +88,11 @@ if ( ! class_exists( 'LP_Addon_Sorting_Choice' ) ) {
 				$assets = learn_press_admin_assets();
 				$assets->enqueue_style( 'lp-sorting-choice-question-admin-css', $this->get_plugin_url( 'assets/css/admin.sorting-choice.css' ) );
 			} else {
-				
-				if(learn_press_is_course()){
+
+				if ( learn_press_is_course() ) {
 					$assets = learn_press_assets();
-					$assets->enqueue_script( 'jquery-ui-touch-punch-js', 
-							$this->get_plugin_url( 'assets/js/jquery.ui.touch-punch.min.js' ), 
+					$assets->enqueue_script( 'jquery-ui-touch-punch-js',
+							$this->get_plugin_url( 'assets/js/jquery.ui.touch-punch.min.js' ),
 							array(
 								'jquery',
 								'jquery-ui-core',

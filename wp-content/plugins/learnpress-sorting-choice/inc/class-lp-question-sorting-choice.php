@@ -49,7 +49,7 @@ if ( ! class_exists( 'LP_Question_Sorting_Choice' ) ) {
 				return $classes;
 			}
 			$type = $answer->get_question()->get_type();
-			if( $type !== 'sorting_choice' ) {
+			if ( $type !== 'sorting_choice' ) {
 				return $classes;
 			}
 
@@ -161,6 +161,10 @@ if ( ! class_exists( 'LP_Question_Sorting_Choice' ) ) {
 			return $answers;
 		}
 
+		public function get_answers_to_edit() {
+			return parent::get_answers();
+		}
+
 		/**
 		 * Get default question list answers.
 		 *
@@ -200,27 +204,42 @@ if ( ! class_exists( 'LP_Question_Sorting_Choice' ) ) {
 		/**
 		 * Check user answer.
 		 *
-		 * @param null $user_answer
+		 * @updated
+		 *  - 3.0.2 - Check positions is wrong
+		 *
+		 * @param mixed $user_answer
 		 *
 		 * @return array
 		 */
 		public function check( $user_answer = null ) {
+
+			/**
+			 * @var LP_Question_Answers       $answers
+			 * @var LP_Question_Answer_Option $answer
+			 */
 			if ( $return = $this->_get_checked( $user_answer ) ) {
 				return $return;
 			}
 
-			$return = parent::check();
+			settype( $user_answer, 'array' );
+
+			$return      = parent::check();
 
 			if ( $answers = parent::get_answers() ) {
 				$position          = 0;
 				$return['correct'] = true;
+
+				// Match position of options with the values user selected
+				// If there is one position does not match then consider
+				// the answer is wrong.
 				foreach ( $answers as $answer ) {
-					if ( $ans = $this->get_answer_at( $position ) ) {
-						if ( $ans && $ans->get_id() != $answer->get_id() ) {
-							$return['correct'] = false;
-							break;
-						}
+					$answered_at = array_search( $answer->get_id(), array_keys( $user_answer ) );
+
+					if ( $answered_at !== $position ) {
+						$return['correct'] = false;
+						break;
 					}
+
 					$position ++;
 				}
 			}

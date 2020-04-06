@@ -4,7 +4,7 @@ Plugin Name: LearnPress - Co-Instructors
 Plugin URI: http://thimpress.com/learnpress
 Description: Building courses with other instructors.
 Author: ThimPress
-Version: 3.0.6
+Version: 3.0.7
 Author URI: http://thimpress.com
 Tags: learnpress, lms, add-on, co-instructor
 Text Domain: learnpress-co-instructor
@@ -15,7 +15,7 @@ Domain Path: /languages/
 defined( 'ABSPATH' ) || exit;
 
 define( 'LP_ADDON_CO_INSTRUCTOR_FILE', __FILE__ );
-define( 'LP_ADDON_CO_INSTRUCTOR_VER', '3.0.6' );
+define( 'LP_ADDON_CO_INSTRUCTOR_VER', '3.0.7' );
 define( 'LP_ADDON_CO_INSTRUCTOR_REQUIRE_VER', '3.0.0' );
 
 if ( ! class_exists( 'LP_Co_Instructor_Preload' ) ) {

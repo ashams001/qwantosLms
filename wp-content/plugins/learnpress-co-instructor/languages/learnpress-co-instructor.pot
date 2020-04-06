@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-04-17 11:44+0700\n"
+"POT-Creation-Date: 2019-04-24 14:39+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -32,68 +32,68 @@ msgstr ""
 msgid "LearnPress"
 msgstr ""
 
-#: inc/load.php:272
+#: inc/load.php:299
 msgid "All"
 msgstr ""
 
-#: inc/load.php:273
+#: inc/load.php:300
 msgid "Mine"
 msgstr ""
 
-#: inc/load.php:274
+#: inc/load.php:301
 msgid "Published"
 msgstr ""
 
-#: inc/load.php:275
+#: inc/load.php:302
 msgid "Private"
 msgstr ""
 
-#: inc/load.php:276
+#: inc/load.php:303
 msgid "Pending Review"
 msgstr ""
 
-#: inc/load.php:277
+#: inc/load.php:304
 msgid "Scheduled"
 msgstr ""
 
-#: inc/load.php:278
+#: inc/load.php:305
 msgid "Draft"
 msgstr ""
 
-#: inc/load.php:279
+#: inc/load.php:306
 msgid "Trash"
 msgstr ""
 
-#: inc/load.php:280
+#: inc/load.php:307
 #: inc/emails/class-lp-co-instructor-email-enrolled-course.php:29
 msgid "Co-instructor"
 msgstr ""
 
-#: inc/load.php:583
+#: inc/load.php:610
 msgid "Co-Instructors"
 msgstr ""
 
-#: inc/load.php:585
+#: inc/load.php:612
 msgid "Colleagues will work with you."
 msgstr ""
 
-#: inc/load.php:585
+#: inc/load.php:612
 msgid "There is no instructor to select. Create <a href=\""
 msgstr ""
 
-#: inc/load.php:594
+#: inc/load.php:621
 msgid "Instructors"
 msgstr ""
 
-#: inc/load.php:675 inc/load.php:771
+#: inc/load.php:702 inc/load.php:798
 msgid "Instructor"
 msgstr ""
 
-#: inc/load.php:680
+#: inc/load.php:707
 msgid "This is a slug and should be unique."
 msgstr ""
 
-#: inc/load.php:680
+#: inc/load.php:707
 msgid "Example link is"
 msgstr ""
 
@@ -130,6 +130,6 @@ msgstr ""
 msgid "Finished course"
 msgstr ""
 
-#: templates/profile-tab.php:39
-msgid "You haven't got any courses yet!"
+#: templates/profile-tab.php:36
+msgid "There isn't any courses created by you as an instructor."
 msgstr ""

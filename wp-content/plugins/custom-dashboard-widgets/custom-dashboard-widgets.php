@@ -628,7 +628,7 @@ $(document).ready(function(){
 		var index, len;
 		var a = [<?php echo '"'.implode('","', $all_roles).'"' ?>];
 		for (index = 0, len = a.length; index < len; ++index) {
-			if(a[index]=='administrator' || a[index]=='editor'){
+			if(a[index]=='administrator' || a[index]=='editor' || ( a[index]=='administrator' && a[index]=='subscriber')){
 				newCol += '<td><input type="checkbox" name="data['+key+']['+a[index]+']" value="checked"  checked/></td>';
 			}else{
 				newCol += '<td><input type="checkbox" name="data['+key+']['+a[index]+']" value="checked"/></td>';
@@ -722,6 +722,7 @@ function cdw_get_count_data(){
     $item['status'] = 'checked';
     $item['administrator'] = 'checked';
     $item['editor'] = 'checked';
+    $item['subscriber'] = 'checked';
     $item['author'] = 'checked';
     $item['contributor'] = 'checked';
     $item['order'] = 0;
@@ -737,6 +738,7 @@ function cdw_get_count_data(){
     $item['data'] = $res2;
     $item['administrator'] = 'checked';
     $item['editor'] = 'checked';
+    $item['subscriber'] = 'checked';
     $item['author'] = 'checked';
     $item['contributor'] = 'checked';
     $item['order'] = 0;
@@ -754,6 +756,7 @@ function cdw_get_count_data(){
     $item['data'] = $res4;
     $item['administrator'] = 'checked';
     $item['editor'] = 'checked';
+    $item['subscriber'] = 'checked';
     $item['author'] = 'checked';
     $item['contributor'] = 'checked';
     $item['order'] = 0;
@@ -772,6 +775,7 @@ function cdw_get_default_data(){
 				$item['status'] = 'checked';
 				$item['administrator'] = 'checked';
 				$item['editor'] = 'checked';
+				$item['subscriber'] = 'checked';
 				$item['author'] = 'checked';
 				$item['contributor'] = 'checked';
 				$item['order'] = 0;
@@ -783,6 +787,7 @@ function cdw_get_default_data(){
 				$item['status'] = 'checked';
 				$item['administrator'] = 'checked';
 				$item['editor'] = 'checked';
+				$item['subscriber'] = 'checked';
 				$item['author'] = 'checked';
 				$item['contributor'] = 'checked';
 				$item['order'] = 0;
@@ -865,7 +870,7 @@ function custom_dashboard_count_widget(){
     }
 
     echo '<div style="background-color: #FFFFFF;">';
-   // echo '<h4>'.__('Data', 'DashboardWidgets').'</h4>';
+//    echo '<h4>'.__('Data', 'DashboardWidgets').'</h4>';
 
     global $current_user; // Use global
     get_currentuserinfo(); // Make sure global is set, if not set it.
@@ -877,11 +882,11 @@ function custom_dashboard_count_widget(){
 //		$data1 =  get_option('dashboard-widgets');
 		$data1 =  cdw_get_count_data();
 
-        console_log(sizeof($data1));
 		foreach($data1 as $item){
 			if($item['status'] != 'checked') continue;
 			$userRole = array_values($current_user->roles);
 			$role = $userRole[0];
+
 			if(!isset($item[$role]) ||  ($item[$role] != 'checked') ) continue;
 						
 //				if(strpos($item['link'] , 'http') ===false){ //not full link
@@ -896,8 +901,6 @@ function custom_dashboard_count_widget(){
 
 
                 $icon = '<i class="fa"></i>';
-
-
 				echo '<div class="'.$widget_count_button_class.'">
 					<a href="">
 						<h1 class="digits">'.__($item['data']).'</h1>
@@ -932,6 +935,7 @@ function custom_dashboard_widget(){
         if($item['status'] != 'checked') continue;
         $userRole = array_values($current_user->roles);
         $role = $userRole[0];
+
         if(!isset($item[$role]) ||  ($item[$role] != 'checked') ) continue;
 
         if(strpos($item['link'] , 'http') ===false){ //not full link

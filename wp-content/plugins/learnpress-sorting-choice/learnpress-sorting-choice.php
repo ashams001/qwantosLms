@@ -4,7 +4,7 @@ Plugin Name: LearnPress - Sorting Choice Question
 Plugin URI: http://thimpress.com/learnpress
 Description: Sorting Choice provide ability to sorting the options of a question to the right order.
 Author: ThimPress
-Version: 3.0.1
+Version: 3.0.2
 Author URI: http://thimpress.com
 Tags: learnpress, lms, add-on, sorting-choice
 Text Domain: learnpress-sorting-choice
@@ -15,9 +15,9 @@ Domain Path: /languages/
 defined( 'ABSPATH' ) || exit;
 
 define( 'LP_ADDON_SORTING_CHOICE_FILE', __FILE__ );
-define( 'LP_ADDON_SORTING_CHOICE_VER', '3.0.1' );
+define( 'LP_ADDON_SORTING_CHOICE_VER', '3.0.2' );
 define( 'LP_ADDON_SORTING_CHOICE_REQUIRE_VER', '3.0.0' );
-define( 'LP_QUESTION_SORTING_CHOICE_VER', '3.0.1' );
+define( 'LP_QUESTION_SORTING_CHOICE_VER', '3.0.2' );
 
 /**
  * Class LP_Addon_Sorting_Choice_Preload

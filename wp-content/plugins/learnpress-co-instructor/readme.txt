@@ -1,5 +1,9 @@
 
 == Changelog ==
+= 3.0.7 =
++ Updated the language file.
++ Changed the method to register email feature.
+
 = 3.0.6 =
 ~ Fixed bug send email notification withou enable send mail.
 

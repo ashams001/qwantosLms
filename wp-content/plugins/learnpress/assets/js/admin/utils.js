@@ -1301,6 +1301,34 @@ $(document).ready(function () {
         }, 200)
       }
     });
+    window.LP.$modalSearchGroups = new $Vue({
+      el: '#vue-modal-search-groups',
+      data: {
+        show: false,
+        term: '',
+        multiple: false,
+        callbacks: {},
+        textFormat: '{{display_name}}',
+        exclude: 0
+      },
+      methods: {
+        open: function open(options) {
+          _.each(options.data, function (v, k) {
+            this[k] = v;
+          }, this);
+
+          this.callbacks = options.callbacks;
+          this.focusSearch();
+        },
+        close: function close() {
+          this.show = false;
+        },
+        focusSearch: _.debounce(function () {
+          $('input[name="search"]', this.$el).focus();
+        }, 200)
+      }
+    });
+
   }();
 });
 
