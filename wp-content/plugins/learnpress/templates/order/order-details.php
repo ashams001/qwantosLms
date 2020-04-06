@@ -20,7 +20,7 @@ if ( ! isset( $order ) ) {
 	return;
 }
 ?>
-<h3><?php _e( 'Order Details', 'learnpress' ); ?></h3>
+<h3><?php _e( 'Assign Course to Users', 'learnpress' ); ?></h3>
 
 <table class="lp-list-table order-table-details">
     <thead>

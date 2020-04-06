@@ -161,7 +161,7 @@ class Groups_Admin_Notice {
 		$output .= '</p>';
 		$output .= '</div>';
 
-		echo $output;
+		//echo $output;
 	}
 }
 Groups_Admin_Notice::init();

@@ -158,7 +158,8 @@ if ( ! class_exists( 'LP_Course_Post_Type' ) ) {
 				'show_in_admin_bar'  => true,
 				'show_in_nav_menus'  => true,
 				'taxonomies'         => array( 'course_category', 'course_tag' ),
-				'supports'           => array( 'title', 'editor', 'thumbnail', 'revisions', 'comments', 'excerpt' ),
+//				'supports'           => array( 'title', 'editor', 'thumbnail', 'revisions', 'comments', 'excerpt' ),
+				'supports'           => array( 'title', 'editor', 'thumbnail', 'revisions' ),
 				'hierarchical'       => false,
 				'rewrite'            => $course_permalink ? array(
 					'slug'       => untrailingslashit( $course_permalink ),
@@ -515,7 +516,7 @@ if ( ! class_exists( 'LP_Course_Post_Type' ) ) {
 		 */
 		public function sortable_columns( $columns ) {
 			$columns['author'] = 'author';
-			$columns['price']  = 'price';
+//			$columns['price']  = 'price';
 
 			return $columns;
 		}
@@ -1291,19 +1292,18 @@ if ( ! class_exists( 'LP_Course_Post_Type' ) ) {
 			$values = array_values( $columns );
 			$pos    = array_search( 'title', $keys );
 			if ( $pos !== false ) {
-				array_splice( $keys, $pos + 1, 0, array( 'author', 'sections', 'students', 'price' ) );
+//				array_splice( $keys, $pos + 1, 0, array( 'author', 'sections', 'students', 'price' ) );
+				array_splice( $keys, $pos + 1, 0, array( 'author',  'students' ) );
 				array_splice( $values, $pos + 1, 0, array(
 					__( 'Author', 'learnpress' ),
-					__( 'Content', 'learnpress' ),
-					__( 'Students', 'learnpress' ),
-					__( 'Price', 'learnpress' )
+					__( 'Students', 'learnpress' )
 				) );
 				$columns = array_combine( $keys, $values );
 			} else {
 				$columns['author']   = __( 'Author', 'learnpress' );
-				$columns['sections'] = __( 'Content', 'learnpress' );
+//				$columns['sections'] = __( 'Content', 'learnpress' );
 				$columns['students'] = __( 'Students', 'learnpress' );
-				$columns['price']    = __( 'Price', 'learnpress' );
+//				$columns['price']    = __( 'Price', 'learnpress' );
 			}
 
 			$columns['taxonomy-course_category'] = __( 'Categories', 'learnpress' );

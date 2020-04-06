@@ -20,12 +20,12 @@
 
 
     </td>
-    <td class="column-price align-right">
-		<?php echo learn_press_format_price( $item['total'], $currency_symbol ); ?>
-    </td>
-    <td class="column-quantity align-right">
-        <small class="times">×</small>
-		<?php echo $item['quantity']; ?>
-    </td>
-    <td class="column-total align-right"><?php echo learn_press_format_price( $item['total'], $currency_symbol ); ?></td>
+<!--    <td class="column-price align-right">-->
+<!--		--><?php //echo learn_press_format_price( $item['total'], $currency_symbol ); ?>
+<!--    </td>-->
+<!--    <td class="column-quantity align-right">-->
+<!--        <small class="times">×</small>-->
+<!--		--><?php //echo $item['quantity']; ?>
+<!--    </td>-->
+<!--    <td class="column-total align-right">--><?php //echo learn_press_format_price( $item['total'], $currency_symbol ); ?><!--</td>-->
 </tr>

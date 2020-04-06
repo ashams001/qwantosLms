@@ -657,7 +657,7 @@ if ( ! class_exists( 'LP_Admin' ) ) {
 			$notice = sprintf( __( 'The following required page(s) are currently missing: %s.', 'learnpress' ), join( ', ', $pages ) );
 			$notice .= sprintf( __( 'To ensure all functions work properly, please click <a class="button" id="learn-press-create-pages" href="%s">here</a> to create and set it up automatically.', 'learnpress' ), esc_url( wp_nonce_url( admin_url( 'admin.php?lp-ajax=create-pages' ), 'create-pages' ) ) );
 
-			learn_press_add_notice( $notice, 'error' );
+			//learn_press_add_notice( $notice, 'error' );
 		}
 
 		/**

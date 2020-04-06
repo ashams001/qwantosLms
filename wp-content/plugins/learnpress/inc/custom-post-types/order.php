@@ -765,12 +765,12 @@ if ( ! class_exists( 'LP_Order_Post_Type' ) ) {
 			add_filter( 'the_title', array( $this, 'order_title' ), 5, 2 );
 
 			$columns['cb']            = '<input type="checkbox" />';
-			$columns['title']         = __( 'Order', 'learnpress' );
+			$columns['title']         = __( 'Transaction ID', 'learnpress' );
 			$columns['order_student'] = __( 'Student', 'learnpress' );
-			$columns['order_items']   = __( 'Purchased', 'learnpress' );
+			$columns['order_items']   = __( 'Courses Assigned', 'learnpress' );
 			$columns['order_date']    = __( 'Date', 'learnpress' );
-			$columns['order_total']   = __( 'Total', 'learnpress' );
-			$columns['order_status']  = '<span class="status_head tips" data-tip="' . esc_attr__( 'Status', 'learnpress' ) . '">' . esc_attr__( 'Status', 'learnpress' ) . '</span>';
+//			$columns['order_total']   = __( 'Total', 'learnpress' );
+//			$columns['order_status']  = '<span class="status_head tips" data-tip="' . esc_attr__( 'Status', 'learnpress' ) . '">' . esc_attr__( 'Status', 'learnpress' ) . '</span>';
 
 			$columns = array_merge( $columns, $existing );
 

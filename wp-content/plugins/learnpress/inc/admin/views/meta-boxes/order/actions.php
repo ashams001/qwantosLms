@@ -13,11 +13,11 @@ defined( 'ABSPATH' ) || exit();
 
 <div class="submitbox" id="submitpost">
     <div id="minor-publishing">
-        <div id="misc-publishing-actions">
+        <div id="misc-publishing-actions" hidden>
             <div class="misc-pub-section">
-                <select name="trigger-order-action">
+                <select name="trigger-order-action" class="trigger-order-action">
                     <option value=""><?php _e( 'Choose an action', 'learnpress' ); ?></option>
-                    <option value="current-status"><?php _e( 'Trigger action of current order status', 'learnpress' ); ?></option>
+                    <option value="current-status" selected><?php _e( 'Trigger action of current order status', 'learnpress' ); ?></option>
                 </select>
             </div>
         </div>
