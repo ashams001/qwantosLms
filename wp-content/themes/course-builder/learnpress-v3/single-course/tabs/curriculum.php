@@ -102,7 +102,7 @@ $curriculum_heading = apply_filters( 'learn_press_curriculum_heading', esc_html_
 	do_action( 'learn-press/before-single-course-curriculum' ); ?>
 
 	<?php if ( $curriculum = $course->get_curriculum() ) { ?>
-		<ul class="curriculum-sections">
+		<ul class="curriculum-sections single_page">
 			<?php
 			$position = 0;
             foreach ( $curriculum as $section ) {
