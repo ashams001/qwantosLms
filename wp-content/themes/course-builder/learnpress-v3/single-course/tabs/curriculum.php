@@ -101,8 +101,25 @@ $curriculum_heading = apply_filters( 'learn_press_curriculum_heading', esc_html_
 	 */
 	do_action( 'learn-press/before-single-course-curriculum' ); ?>
 
-	<?php if ( $curriculum = $course->get_curriculum() ) { ?>
-		<ul class="curriculum-sections single_page">
+	<?php
+        $user        = learn_press_get_current_user();
+        //$course      = $course_id ? learn_press_get_course( $course_id ) : LP_Global::course();
+        $is_learning = false;
+        $has_status  = false;
+
+        if ( $user && $course ) {
+            $has_status = $user->has_course_status( $course->get_id(), array(
+                'enrolled',
+                'finished'
+            ) );
+        }
+        if ( $curriculum = $course->get_curriculum() ) { ?>
+        <?php if ($has_status ): ?>
+            <ul class="curriculum-sections">
+        <?php endif; ?>
+        <?php if (!$has_status ): ?>
+            <ul class="curriculum-sections single-page">
+        <?php endif; ?>
 			<?php
 			$position = 0;
             foreach ( $curriculum as $section ) {
