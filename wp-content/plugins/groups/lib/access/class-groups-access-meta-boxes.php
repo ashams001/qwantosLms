@@ -101,7 +101,76 @@ class Groups_Access_Meta_Boxes {
 		$post_type_object = get_post_type_object( $post_type );
 		if ( $post_type_object && $post_type != 'attachment' ) {
 			$post_types_option = Groups_Options::get_option( Groups_Post_Access::POST_TYPES, array() );
-			if (
+            if (
+                ($post_type == 'lp_course') && Groups_Post_Access::handles_post_type( $post_type ) &&
+                (
+                    !isset( $post_types_option[$post_type]['add_meta_box'] ) ||
+                    $post_types_option[$post_type]['add_meta_box']
+                )
+            ) {
+
+                add_meta_box(
+                    'groups-permissions',
+                    _x( 'Assign Course to Groups', 'Meta box title', 'course_groups' ),
+                    array( __CLASS__, 'course_groups' ),
+                    null,
+                    'side',
+                    'high'
+                );
+
+                Groups_UIE::enqueue( 'select' );
+
+                if ( self::user_can_restrict() ) {
+                    if ( $screen = get_current_screen() ) {
+                        // help tab for group-based access restrictions
+                        $screen->add_help_tab( array(
+                            'id'      => 'groups-groups',
+                            'title'   => _x( 'Groups', 'Help tab title', 'groups' ),
+                            'content' =>
+                                '<p>' .
+                                '<strong>' . _x( 'Groups', 'Help heading', 'groups' ) . '</strong>' .
+                                '</p>' .
+                                '<p>' .
+                                wp_kses(
+                                    __( 'Use the <em>Groups</em> box to limit the visibility of posts, pages and other post types.', 'groups' ),
+                                    array( 'em' => array() )
+                                ) .
+                                '</p>' .
+                                '<p>' .
+                                esc_html__( 'You can select one or more groups to restrict access to its members.', 'groups' ) .
+                                ( !current_user_can( GROUPS_ADMINISTER_GROUPS ) ?
+                                    ' ' .
+                                    esc_html__( 'Note that you must be a member of a group to use it to restrict access.', 'groups' )
+                                    :
+                                    ''
+                                ) .
+                                '</p>' .
+                                '<p>' .
+                                '<strong>' . esc_html__( 'Example:', 'groups' ) . '</strong>' .
+                                '</p>' .
+                                wp_kses(
+                                    __( 'Let\'s assume that you want to limit the visibility of a post to members of the <em>Premium</em> group.', 'groups' ),
+                                    array( 'em' => array() )
+                                ) .
+                                '<p>' .
+                                ' ' .
+                                '</p>' .
+                                wp_kses(
+                                    __( 'Choose or enter <em>Premium</em> in the <em>Read</em> field located in the <em>Groups</em> box and save or update the post (or hit Enter).', 'groups' ),
+                                    array( 'em' => array() )
+                                ) .
+                                '<p>' .
+                                ( current_user_can( GROUPS_ADMINISTER_GROUPS ) ?
+                                    '<p>' .
+                                    esc_html__( 'In the same field, you can create a new group and restrict access. Group names are case-sensitive. In order to be able to use the new group, your user account will be assigned to it.', 'groups' ) .
+                                    '</p>'
+                                    :
+                                    ''
+                                )
+                        ) );
+                    }
+                }
+            }else if (
 				Groups_Post_Access::handles_post_type( $post_type ) &&
 				(
 					!isset( $post_types_option[$post_type]['add_meta_box'] ) ||
@@ -174,6 +243,104 @@ class Groups_Access_Meta_Boxes {
 		}
 	}
 
+    /**
+     * Render meta box for course_groups.
+     *
+     * @see do_meta_boxes()
+     *
+     * @param Object $object
+     * @param Object $box
+     */
+    public static function course_groups( $object = null, $box = null ) {
+
+        $output = '';
+
+        $post_id   = isset( $object->ID ) ? $object->ID : null;
+        $post_type = isset( $object->post_type ) ? $object->post_type : null;
+        $post_singular_name = __( 'Post', 'course_groups' );
+        if ( $post_type !== null ) {
+            $post_type_object = get_post_type_object( $post_type );
+            $labels = isset( $post_type_object->labels ) ? $post_type_object->labels : null;
+            if ( $labels !== null ) {
+                if ( isset( $labels->singular_name ) ) {
+                    $post_singular_name = __( $labels->singular_name );
+                }
+            }
+        }
+
+        $output .= wp_nonce_field( self::SET_GROUPS, self::NONCE, true, false );
+
+        $output .= apply_filters( 'groups_access_meta_boxes_groups_before_read_groups', '', $object, $box );
+
+        $output .= '<div class="select-read-groups-container">';
+
+        if ( self::user_can_restrict() ) {
+
+            $include     = self::get_user_can_restrict_group_ids();
+            $groups      = Groups_Group::get_groups( array( 'order_by' => 'name', 'order' => 'ASC', 'include' => $include ) );
+            $groups_read = get_post_meta( $post_id, Groups_Post_Access::POSTMETA_PREFIX . Groups_Post_Access::READ_GRP );
+
+            $read_help = sprintf(
+                __( 'You can restrict the visibility of this %1$s to group members. Choose one or more groups that are allowed to read this %2$s. If no groups are chosen, the %3$s is visible to anyone.', 'course_groups' ),
+                $post_singular_name,
+                $post_singular_name,
+                $post_singular_name
+            );
+            if ( current_user_can( GROUPS_ADMINISTER_GROUPS ) ) {
+                $read_help .= ' ' . __( 'You can create a new group by indicating the group\'s name.', 'course_groups' );
+            }
+
+//            $output .= sprintf(
+//                '<label title="%s">',
+//                esc_attr( $read_help )
+//            );
+//            $output .= __( 'Select or Search Groups', 'course_groups' );
+//            $output .= ' ';
+
+            $output .= sprintf(
+                '<select class="select groups-read" name="%s" multiple="multiple" placeholder="%s" data-placeholder="%s" title="%s">',
+                self::GROUPS_READ . '[]',
+                esc_attr( __( 'Select or Search Groups &hellip;', 'course_groups' ) ),
+                esc_attr( __( 'Select or Search Groups &hellip;', 'course_groups' ) ),
+                esc_attr( $read_help )
+            );
+            $output .= '<option value=""></option>';
+            foreach( $groups as $group ) {
+                $output .= sprintf( '<option value="%s" %s>', esc_attr( $group->group_id ), in_array( $group->group_id, $groups_read ) ? ' selected="selected" ' : '' );
+                $output .= wp_filter_nohtml_kses( $group->name );
+                $output .= '</option>';
+            }
+            $output .= '</select>';
+            $output .= '</label>';
+            $output .= Groups_UIE::render_select(
+                '.select.groups-read',
+                true,
+                true,
+                current_user_can( GROUPS_ADMINISTER_GROUPS )
+            );
+        } else {
+            $output .= '<p class="description">';
+            $output .= sprintf( __( 'You cannot set any access restrictions.', 'course_groups' ), $post_singular_name );
+            $style = 'cursor:help;vertical-align:middle;';
+            if ( current_user_can( GROUPS_ADMINISTER_OPTIONS ) ) {
+                $style = 'cursor:pointer;vertical-align:middle;';
+                $output .= sprintf( '<a href="%s">', esc_url( admin_url( 'admin.php?page=groups-admin-options' ) ) );
+            }
+            $output .= sprintf( '<img style="%s" alt="?" title="%s" src="%s" />', $style, esc_attr( __( 'You need to have permission to set access restrictions.', 'course_groups' ) ), esc_attr( GROUPS_PLUGIN_URL . 'images/help.png' ) );
+            if ( current_user_can( GROUPS_ADMINISTER_OPTIONS ) ) {
+                $output .= '</a>';
+            }
+            $output .= '</p>';
+        }
+
+        $output .= '</div>'; // .select-read-groups-container
+
+        $output .= apply_filters( 'groups_access_meta_boxes_groups_after_read_groups', '', $object, $box );
+
+        $output = apply_filters( 'groups_access_meta_boxes_groups', $output, $object, $box );
+
+        echo $output;
+    }
 	/**
 	 * Render meta box for groups.
 	 *
@@ -325,8 +492,7 @@ class Groups_Access_Meta_Boxes {
 			if ( $post_type_object && $post_type != 'attachment' ) {
 				$post_types_option = Groups_Options::get_option( Groups_Post_Access::POST_TYPES, array() );
 				if ( !isset( $post_types_option[$post_type]['add_meta_box'] ) || $post_types_option[$post_type]['add_meta_box'] ) {
-
-					if ( self::user_can_restrict() ) {
+				    if ( self::user_can_restrict() ) {
 						if ( isset( $_POST[self::NONCE] ) && wp_verify_nonce( $_POST[self::NONCE], self::SET_GROUPS ) ) {
 							$post_type = isset( $_POST['post_type'] ) ? $_POST['post_type'] : null;
 							if ( $post_type !== null ) {
@@ -383,8 +549,42 @@ class Groups_Access_Meta_Boxes {
 											}
 										}
 									}
+									console_log($group_ids);
+                                    foreach ( $group_ids as $group_id => $group ) {
+                                        global $wpdb;
+                                        $user_group_table = _groups_get_tablename( 'user_group' );
+                                        console_log($user_group_table);
+                                        $users = $wpdb->get_results( "SELECT user_id FROM $user_group_table where group_id = $group_id" );
+                                        foreach ( $users as $uid => $data ) {
+                                            console_log($uid);
+                                            $user = learn_press_get_user( $uid );
+                                            if ( ! $user->is_exists() ) {
+                                                continue;
+                                            }
+                                            console_log($user->has_enrolled_course( $post_id ));
+                                            if ( $user->has_enrolled_course( $post_id ) ) {
+                                                continue;
+                                            }
+                                            if ( ! $user->can_enroll_course( $post_id ) ) {
+                                                continue;
+                                            }
+                                            // error. this scripts will create new order each course item
+                                            learn_press_update_user_item_field( array(
+                                                'user_id'    => $user->get_id(),
+                                                'item_id'    => $post_id,
+                                                'start_time' => current_time( 'mysql' ),
+                                                'status'     => 'enrolled',
+                                                'end_time'   => '0000-00-00 00:00:00',
+                                                'ref_id'     => $post_id, //$course->get_id(),
+                                                'item_type'  => 'lp_course',
+                                                'ref_type'   => 'lp_order',
+                                                'parent_id'  => $user->get_course_history_id( $post_id )
+                                            ) );
+                                        }
+                                    }
 
 									do_action( 'groups_access_meta_boxes_before_groups_read_update', $post_id, $group_ids );
+
 									$update_result = Groups_Post_Access::update( array( 'post_id' => $post_id, 'groups_read' => $group_ids ) );
 									do_action( 'groups_access_meta_boxes_after_groups_read_update', $post_id, $group_ids, $update_result );
 								}

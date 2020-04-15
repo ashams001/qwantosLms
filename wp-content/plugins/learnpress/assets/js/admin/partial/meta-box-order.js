@@ -268,44 +268,6 @@
         }
       });
     });
-    $(document).on('click', '.change-group', function (e) {
-      e.preventDefault();
-      LP.$modalSearchGroups.open({
-        data: {
-          context: 'order-items',
-          contextId: $('#post_ID').val(),
-          show: true,
-          multiple: $(this).data('multiple') === 'yes',
-          exclude: getAddedGroups(),
-          textFormat: orderOptions.userTextFormat
-        },
-        callbacks: {
-          addGroups: function addGroups(data) {
-            if (this.multiple) {
-              if (!$listGroups.length) {
-                $listGroups = $(LP.template('tmpl-order-data-group')({
-                  multiple: true
-                }));
-                $listGroups.LP('AdvancedList', advancedListOptions);
-                $('.order-data-group').replaceWith($listGroups);
-              }
-
-              for (var i = 0; i < this.selected.length; i++) {
-                $listGroups.LP('AdvancedList', 'add', [template(this.textFormat, this.selected[i]), this.selected[i].id]);
-              }
-            } else {
-              var $html = LP.template('tmpl-order-data-group')({
-                name: template(this.textFormat, this.selected[0]),
-                id: this.selected[0].id
-              });
-              $('.order-data-group').replaceWith($html);
-            }
-
-            this.close();
-          }
-        }
-      });
-    });
   });
 })(jQuery);
 

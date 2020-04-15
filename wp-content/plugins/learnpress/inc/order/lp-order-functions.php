@@ -844,3 +844,13 @@ function _learn_press_checkout_auto_enroll_free_course( $result, $order_id ) {
 	return $result;
 }
 
+function learn_press_get_groups() {
+    global $wpdb;
+    $groups = $wpdb->get_results("SELECT * FROM wp_groups_group");
+    echo $groups;
+}
+function learn_press_get_group_by_id($group_id) {
+    global $wpdb;
+    $groups = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM wp_groups_group WHERE group_id != %d", $group_id) );
+    echo $groups[0];
+}

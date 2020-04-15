@@ -38,6 +38,11 @@ class Groups_Post_Access {
 	 */
 	const READ = 'read';
 
+    /**
+     * @var string
+     */
+    const READ_GRP = 'Search or Select Group';
+
 	/**
 	 * @var string
 	 */
