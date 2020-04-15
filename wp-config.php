@@ -20,13 +20,13 @@ define('WP_CACHE', false);
  */
 // ** MySQL settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
-define('DB_NAME', 'pnccs');
+define('DB_NAME', 'iqdemopr_pnccs');
 
 /** MySQL database username */
-define('DB_USER', 'pnccs');
+define('DB_USER', 'iqdemopr_pnccs');
 
 /** MySQL database password */
-define('DB_PASSWORD', 'pnccs@2020');
+define('DB_PASSWORD', 'HMGQN8B67bNvoB');
 
 /** MySQL hostname */
 define('DB_HOST', 'localhost');
@@ -72,13 +72,13 @@ $table_prefix  = 'wp_';
  * @link https://codex.wordpress.org/Debugging_in_WordPress
  */
 // Enable WP_DEBUG mode
-define( 'WP_DEBUG', true );
+define( 'WP_DEBUG', false );
 
 // Enable Debug logging to the /wp-content/debug.log file
 define( 'WP_DEBUG_LOG', true );
 
 // Disable display of errors and warnings
-define( 'WP_DEBUG_DISPLAY', true );
+define( 'WP_DEBUG_DISPLAY', false );
 
 
 // Use dev versions of core JS and CSS files (only needed if you are modifying these core files)

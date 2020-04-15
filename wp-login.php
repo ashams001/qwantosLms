@@ -958,14 +958,10 @@ switch ( $action ) {
 		login_header( __( 'Reset Password' ), '<p class="message reset-pass">' . __( 'Enter your new password below.' ) . '</p>', $errors );
 
 		?>
-		<form name="resetpassform" id="resetpassform" action="<?php echo esc_url( network_site_url( 'wp-login.php?action=resetpass', 'login_post' ) ); ?>" method="post" autocomplete="off">
+				<form name="resetpassform" id="resetpassform" action="<?php echo esc_url( network_site_url( 'wp-login.php?action=resetpass', 'login_post' ) ); ?>" method="post" autocomplete="off">
 			<input type="hidden" id="user_login" value="<?php echo esc_attr( $rp_login ); ?>" autocomplete="off" />
 
-			<div class="user-pass1-wrap">
-				<p>
-					<label for="pass1"><?php _e( 'New password' ); ?></label>
-				</p>
-
+			<p class="user-pass1-wrap"><label for="pass1"><?php _e( 'New password' ); ?></label>
 				<div class="wp-pwd">
 					<input type="password" data-reveal="1" data-pw="<?php echo esc_attr( wp_generate_password( 16 ) ); ?>" name="pass1" id="pass1" class="input password-input" size="24" value="" autocomplete="off" aria-describedby="pass-strength-result" />
 
@@ -978,7 +974,7 @@ switch ( $action ) {
 					<input type="checkbox" name="pw_weak" id="pw-weak" class="pw-checkbox" />
 					<label for="pw-weak"><?php _e( 'Confirm use of weak password' ); ?></label>
 				</div>
-			</div>
+			</p>
 
 			<p class="user-pass2-wrap">
 				<label for="pass2"><?php _e( 'Confirm new password' ); ?></label>
