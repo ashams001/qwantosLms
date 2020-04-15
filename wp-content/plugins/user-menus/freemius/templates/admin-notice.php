@@ -36,6 +36,7 @@
 		}
 	}
 ?>
+<!-- 
 <div<?php if ( ! empty( $VARS['id'] ) ) : ?> data-id="<?php echo $VARS['id'] ?>"<?php endif ?><?php if ( ! empty( $VARS['manager_id'] ) ) : ?> data-manager-id="<?php echo $VARS['manager_id'] ?>"<?php endif ?><?php if ( ! empty( $slug ) ) : ?> data-slug="<?php echo $slug ?>"<?php endif ?><?php if ( ! empty( $type ) ) : ?> data-type="<?php echo $type ?>"<?php endif ?>
 	class="<?php
 		switch ( $VARS['type'] ) {
@@ -53,7 +54,9 @@
 				echo 'updated success';
 				break;
 		}
-	?> fs-notice<?php if ( ! empty( $VARS['sticky'] ) ) {
+	?> 
+	
+	fs-notice<?php if ( ! empty( $VARS['sticky'] ) ) {
 		echo ' fs-sticky';
 	} ?><?php if ( ! empty( $VARS['plugin'] ) ) {
 		echo ' fs-has-title';
@@ -74,3 +77,4 @@
 		<?php echo $VARS['message'] ?>
 	</div>
 </div>
+ -->
