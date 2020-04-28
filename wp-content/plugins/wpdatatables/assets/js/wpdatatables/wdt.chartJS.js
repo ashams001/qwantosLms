@@ -238,7 +238,7 @@ var wpDataTablesChartJS = function(){
                     var serieIndex = 0;
                     var filteredData = obj.connectedWPDataTable._('tr', {"filter": "applied"}).toArray();
                     var colors = [
-                        '#ff6384',
+                        '#1e4e7f',
                         '#36a2eb',
                         '#ffce56',
                         '#4bc0c0',
